@@ -23,6 +23,7 @@ dependencies = [
     "scikit-learn",
     "rouge-score",
     "bert-score",
+    "alignscore",
     "nltk",
     "rank-bm25",
     "gradio>=4.0",
@@ -36,7 +37,6 @@ gpu = [
     "faiss-gpu>=1.8.0; python_version < '3.12'",
     "unsloth[cu121-ampere-torch220]>=2024.9; platform_system == 'Linux'"
 ]
-alignscore = ["git+https://github.com/yuh-zha/AlignScore.git"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

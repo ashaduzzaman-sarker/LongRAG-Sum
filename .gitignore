@@ -1,7 +1,17 @@
+# Downloaded from
+artifacts/
+data/
+logs/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
 *$py.class
+*.pyc
+.DS_Store
+*.tmp
+*.cache
 
 # C extensions
 *.so

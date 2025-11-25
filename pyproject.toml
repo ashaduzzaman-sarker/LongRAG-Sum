@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+
+[project]
+name = "longragsum"
+version = "0.0.1"
+description = "Retrieval-Augmented Long-Form Summarization"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.1.0",
+    "transformers>=4.40.0",
+    "datasets>=2.18.0",
+    "sentence-transformers>=2.5.0",
+    "faiss-cpu>=1.8.0",
+    "accelerate>=0.30.0",
+    "peft>=0.11.0",
+    "bitsandbytes>=0.43.0",
+    "pandas",
+    "tqdm",
+    "pyyaml",
+    "rich",
+    "loguru",
+    "scikit-learn",
+    "rouge-score",
+    "bert-score",
+    "nltk",
+    "rank-bm25",
+    "gradio>=4.0",
+    "fastapi",
+    "uvicorn[standard]",
+    "python-multipart"
+]
+
+[project.optional-dependencies]
+gpu = [
+    "faiss-gpu>=1.8.0; python_version < '3.12'",
+    "unsloth[cu121-ampere-torch220]>=2024.9; platform_system == 'Linux'"
+]
+alignscore = ["git+https://github.com/yuh-zha/AlignScore.git"]
+
+[tool.setuptools.packages.find]
+where = ["src"]

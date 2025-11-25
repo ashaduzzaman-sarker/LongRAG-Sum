@@ -1,18 +1,15 @@
-torch>=2.1.0
+# -------------------------
+# CORE ML STACK
+# -------------------------
 transformers>=4.40.0
 datasets>=2.18.0
 sentence-transformers>=2.5.0
-
-# FAISS: GPU version not available for Python 3.12
-faiss-cpu>=1.8.0
-
 accelerate>=0.30.0
 peft>=0.11.0
-bitsandbytes>=0.43.0
-
-# Unsloth for GPU acceleration (Linux only)
+# Unsloth controls torch & bitsandbytes (Linux GPU)
 unsloth[cu121-ampere-torch220]>=2024.9; platform_system == "Linux"
-
+# For non-Linux systems fallback to CPU PyTorch
+torch==2.2.0; platform_system != "Linux"
 pandas
 tqdm
 pyyaml
@@ -21,14 +18,21 @@ loguru
 scikit-learn
 rouge-score
 bert-score
-alignscore
 nltk
 rank-bm25
-
-# UI & API
+# -------------------------
+# RAG / VECTOR SEARCH
+# -------------------------
+faiss-cpu>=1.8.0
+faiss-gpu>=1.8.0; python_version < "3.12"
+# -------------------------
+# AlignScore (install without deps to avoid pytorch conflict)
+# -------------------------
+git+https://github.com/yuh-zha/AlignScore.git
+# -------------------------
+# SERVING
+# -------------------------
 gradio>=4.0
 fastapi
 uvicorn[standard]
 python-multipart
-
--e .

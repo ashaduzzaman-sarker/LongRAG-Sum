@@ -8,7 +8,7 @@ description = "Retrieval-Augmented Long-Form Summarization with Open LLMs"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [
-    {name = "Your Name", email = "your.email@example.com"}
+    {name = "Md. Ashaduzzaman Sarker", email = "ashaduzzaman2505@gmail.com"}
 ]
 dependencies = [
     "torch>=2.1.0",

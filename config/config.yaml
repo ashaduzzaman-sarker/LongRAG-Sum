@@ -6,9 +6,12 @@ artifacts:
   INDEX_DIR: artifacts/index
 
 data:
+  # Primary dataset – change later to your own benchmark
   dataset_name: allenai/booksum
-  dataset_split: train[:1%]
-  max_input_length: 16384
+  dataset_config: default
+  dataset_split: train[:100]   # Small for testing – change to train/validation later
+  max_samples: null
+  max_input_length: 100000
   chunk_size: 512
   chunk_overlap: 64
   top_k: 32

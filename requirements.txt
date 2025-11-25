@@ -1,0 +1,25 @@
+torch>=2.1.0
+transformers>=4.40.0
+datasets>=2.18.0
+sentence-transformers>=2.5.0
+faiss-cpu>=1.8.0
+faiss-gpu>=1.8.0; platform_system == "Linux"
+accelerate>=0.30.0
+peft>=0.11.0
+bitsandbytes>=0.43.0
+unsloth[cu121-ampere-torch220]>=2024.9; platform_system == "Linux"
+pandas
+tqdm
+pyyaml
+rich
+loguru
+scikit-learn
+rouge-score
+bert-score
+alignscore
+nltk
+rank-bm25
+gradio>=4.0
+fastapi
+uvicorn[standard]
+python-multipart

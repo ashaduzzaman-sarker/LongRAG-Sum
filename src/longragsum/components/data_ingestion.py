@@ -10,7 +10,7 @@ class LongFormDataIngestion:
 
     def download_and_save(self):
         os.makedirs(self.config.raw_data_dir, exist_ok=True)
-        save_path = self.config.raw_data_dir / "booksum.parquet"
+        save_path = self.config.raw_data_dir / "govreport.parquet"
 
         if save_path.exists():
             logger.info(f"Data already exists at {save_path}")
@@ -25,8 +25,13 @@ class LongFormDataIngestion:
         )
 
         # Keep only very long examples for true long-form research
+        # def is_long(example):
+        #     return len(example["report"].split()) > 3000  # >~10k tokens
+
         def is_long(example):
-            return len(example["chapter"].split()) > 3000  # >~10k tokens
+            # GovReport uses 'report' as long text field
+            text_field = example.get("report") or example.get("chapter") or example.get("text", "")
+            return len(text_field.split()) > 3000  # >~10k tokens
 
         ds_long = ds.filter(is_long, num_proc=4)
         logger.info(f"Filtered to {len(ds_long)} long documents")

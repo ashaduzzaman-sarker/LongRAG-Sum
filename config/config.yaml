@@ -7,8 +7,8 @@ artifacts:
 
 data:
   # Primary dataset – change later to your own benchmark
-  dataset_name: allenai/booksum
-  dataset_config: default
+  dataset_name: ccdv/govreport-summarization # allenai/booksum
+  dataset_config: null # default
   dataset_split: train[:100]   # Small for testing – change to train/validation later
   max_samples: null
   max_input_length: 100000

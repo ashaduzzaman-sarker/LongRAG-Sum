@@ -1,39 +1,46 @@
-# -------------------------
-# CORE ML STACK
-# -------------------------
+# Core ML/DL
+torch>=2.1.0
 transformers>=4.40.0
 datasets>=2.18.0
 sentence-transformers>=2.5.0
 accelerate>=0.30.0
 peft>=0.11.0
-# Unsloth controls torch & bitsandbytes (Linux GPU)
-unsloth[cu121-ampere-torch220]>=2024.9; platform_system == "Linux"
-# For non-Linux systems fallback to CPU PyTorch
-torch==2.2.0; platform_system != "Linux"
-pandas
-tqdm
-pyyaml
-rich
-loguru
-scikit-learn
-rouge-score
-bert-score
-alignscore
-nltk
-rank-bm25
-# -------------------------
-# RAG / VECTOR SEARCH
-# -------------------------
+bitsandbytes>=0.43.0
+
+# Vector Store & Retrieval
 faiss-cpu>=1.8.0
-faiss-gpu>=1.8.0; python_version < "3.12"
-# -------------------------
-# AlignScore (install without deps to avoid pytorch conflict)
-# -------------------------
-# git+https://github.com/yuh-zha/AlignScore.git
-# -------------------------
-# SERVING
-# -------------------------
-gradio>=4.0
-fastapi
-uvicorn[standard]
-python-multipart
+# faiss-gpu>=1.8.0  # Uncomment for GPU support
+rank-bm25>=0.2.2
+
+# Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+tqdm>=4.65.0
+pyyaml>=6.0
+nltk>=3.8
+
+# Logging & Monitoring
+loguru>=0.7.0
+rich>=13.0.0
+python-box>=7.0.0
+ensure>=1.0.3
+
+# Evaluation Metrics
+rouge-score>=0.1.2
+bert-score>=0.3.13
+# alignscore>=0.1.0  # Optional: may require manual install
+scikit-learn>=1.3.0
+
+# Web & API
+gradio>=4.0.0
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+python-multipart>=0.0.6
+
+# Development
+pytest>=7.4.0
+black>=23.0.0
+flake8>=6.1.0
+pre-commit>=3.5.0
+
+

@@ -1,0 +1,28 @@
+artifacts:
+  ARTIFACTS_DIR: artifacts
+  DATA_DIR: artifacts/data
+  RETRIEVER_DIR: artifacts/retriever
+  READER_DIR: artifacts/reader
+  INDEX_DIR: artifacts/index
+
+data:
+  dataset_name: allenai/booksum
+  dataset_split: train[:1%]
+  max_input_length: 16384
+  chunk_size: 512
+  chunk_overlap: 64
+  top_k: 32
+
+retriever:
+  model_name: BAAI/bge-large-en-v1.5
+  device: cuda
+  batch_size: 32
+
+reader:
+  base_model: meta-llama/Meta-Llama-3.1-8B-Instruct
+  lora_r: 64
+  lora_alpha: 16
+  target_modules: ["q_proj", "v_proj"]
+  max_seq_length: 32768
+  use_4bit: true
+  use_gradient_checkpointing: true

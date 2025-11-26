@@ -35,7 +35,7 @@ tokenizer.pad_token = tokenizer.eos_token
 # 2. Load GovReport validation set (our training data)
 # ========================
 print("Loading GovReport validation split...")
-raw_dataset = load_dataset("ccdv/govreport-summarization", split="validation[:400]")  # 400 = safe for T4
+raw_dataset = load_dataset("ccdv/govreport-summarization", split="validation[:100]")  # 100 = safe for T4
 
 # ========================
 # 3. Build RAG-formatted training examples (top-8 passages)
@@ -114,7 +114,7 @@ training_args = TrainingArguments(
     per_device_train_batch_size=1,
     gradient_accumulation_steps=16,
     learning_rate=2e-4,
-    num_train_epochs=3,
+    num_train_epochs=1,
     logging_steps=10,
     save_strategy="epoch",
     save_total_limit=2,
@@ -133,12 +133,9 @@ training_args = TrainingArguments(
 # ========================
 trainer = SFTTrainer(
     model=model,
-    tokenizer=tokenizer,
     args=training_args,
     train_dataset=train_dataset,
-    dataset_text_field="text",
-    max_seq_length=8192,
-    packing=False,
+    formatting_func=lambda x: x["text"],
 )
 
 print("STARTING QLoRA FINE-TUNING...")
@@ -154,8 +151,4 @@ tokenizer.save_pretrained(final_path)
 print(f"""
 FINE-TUNING COMPLETE!
 Your LongRAG-Sum adapter is saved at: {final_path}
-Next steps:
-1. Run generate_test_summaries.py
-2. Run evaluate.py
-3. Submit to ACL 2026
 """)

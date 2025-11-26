@@ -28,7 +28,7 @@ model = AutoModelForCausalLM.from_pretrained(
 model.eval()
 
 print("Loading GovReport test set...")
-test_dataset = load_dataset("ccdv/govreport-summarization", split="test[:200]")
+test_dataset = load_dataset("ccdv/govreport-summarization", split="test[:100]")
 
 def truncate_report(report, max_tokens=7500):
     tokens = tokenizer.encode(report, add_special_tokens=False)
@@ -79,11 +79,4 @@ with open(output_file, "w") as f:
 print(f"""
 DIRECT BASELINE COMPLETE!
 Saved to: {output_file}
-
-Expected results (you will get these):
-ROUGE-1:  ~41–43
-ROUGE-L:  ~30–32
-AlignScore: ~0.78
-
-Your LongRAG-Sum will beat this by +6–8 ROUGE-L → accepted.
 """)

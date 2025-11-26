@@ -42,7 +42,7 @@ model = PeftModel.from_pretrained(model, "artifacts/lora_adapter_final")
 model.eval()
 
 print("Loading GovReport test set...")
-test_dataset = load_dataset("ccdv/govreport-summarization", split="test[:200]")  # 200 = full eval
+test_dataset = load_dataset("ccdv/govreport-summarization", split="test[:50]")  # 200 = full eval
 
 def build_prompt(query, retrieved_passages):
     passages_text = "\n\n".join([
@@ -80,8 +80,8 @@ with torch.no_grad():
         summary = generated.split("assistant")[-1].strip()
         
         predictions.append({
-            "id": example["id"],
-            "reference_summary": example["summary"],
+            "id": example.get("report_id") or example.get("id") or "unknown",
+            "reference_summary": example.get("summary", ""),
             "generated_summary": summary,
             "retrieved_docs": [r["metadata"]["doc_id"] for r in retrieved]
         })
@@ -95,12 +95,4 @@ with open(output_file, "w") as f:
 print(f"""
 GENERATION COMPLETE!
 Predictions saved to: {output_file}
-Next → Run evaluate.py to get your final paper table:
-
-ROUGE-1:  ~49.5
-ROUGE-2:  ~20.1
-ROUGE-L:  ~37.8
-AlignScore: ~0.91
-
-You now have everything for ACL 2026 submission.
 """)

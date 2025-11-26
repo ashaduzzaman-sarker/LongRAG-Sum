@@ -19,7 +19,8 @@ if __name__ == "__main__":
     query = "What are the key findings and policy recommendations regarding renewable energy adoption in the United States?"
 
     print("Generating RAG summary...\n")
-    result = reader.summarize(query, k=32, max_new_tokens=600)
+    result = reader.summarize(query, k=32, max_new_tokens=600) # Wait for Unsloth’s 128k Llama-3.1 release (expected Dec 2025)
+    # result = reader.summarize(query, k=16, max_new_tokens=600) # ← 16 instead of 32
 
     print("="*80)
     print("FINAL RAG SUMMARY")

@@ -36,6 +36,7 @@ dependencies = [
     "python-multipart>=0.0.6",
     "python-box>=7.0.0",
     "ensure>=1.0.0",
+    "unsloth"
 ]
 
 [project.optional-dependencies]

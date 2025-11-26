@@ -1,4 +1,5 @@
 # src/longragsum/components/reader/rag_reader.py
+import unsloth
 import torch
 from transformers import AutoTokenizer, GenerationConfig
 from peft import PeftModel
@@ -11,28 +12,31 @@ class RAGReader:
         self.config = config
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        logger.info(f"Loading {config.base_model} in {'4-bit' if config.use_4bit else '16-bit'}")
-        if config.use_4bit:
-            from unsloth import FastLanguageModel
-            self.model, self.tokenizer = FastLanguageModel.from_pretrained(
-                config.base_model,
-                dtype=None,  # Auto-detect
-                load_in_4bit=True,
-                device_map="auto"
-            )
-            # Enable faster inference
-            FastLanguageModel.for_inference(self.model)
-        else:
-            from transformers import AutoModelForCausalLM
-            self.model = AutoModelForCausalLM.from_pretrained(
-                config.base_model,
-                torch_dtype=torch.bfloat16,
-                device_map="auto"
-            )
-            self.tokenizer = AutoTokenizer.from_pretrained(config.base_model, use_fast=True)
+        logger.info(f"Loading {config.base_model} with 128k context (official Meta weights)")
+        
+        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+        import torch
 
-        # Optional: load LoRA adapter later
-        self.lora_adapter = None
+        quantization_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.bfloat16,
+            bnb_4bit_use_double_quant=True,
+        )
+
+        self.model = AutoModelForCausalLM.from_pretrained(
+            config.base_model,
+            device_map="auto",
+            torch_dtype=torch.bfloat16,
+            quantization_config=quantization_config,
+            trust_remote_code=True
+        )
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            config.base_model,
+            use_fast=True,
+            trust_remote_code=True
+        )
+        self.tokenizer.pad_token = self.tokenizer.eos_token
 
     def build_prompt(self, query: str, retrieved_passages, max_length=32000):
         system = "You are an expert summarizer. Write a concise, accurate summary using ONLY the provided passages."

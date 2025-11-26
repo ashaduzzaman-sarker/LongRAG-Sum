@@ -1,10 +1,11 @@
 # src/longragsum/components/reader/rag_reader.py
 import unsloth
 import torch
-from transformers import AutoTokenizer, GenerationConfig
-from peft import PeftModel
-from longragsum.logging.logger import logger
 from tqdm import tqdm
+from peft import PeftModel
+from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from transformers import AutoTokenizer, GenerationConfig
+from longragsum.logging.logger import logger
 
 class RAGReader:
     def __init__(self, retriever, config):
@@ -12,11 +13,7 @@ class RAGReader:
         self.config = config
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        logger.info(f"Loading {config.base_model} with 128k context (official Meta weights)")
-        
-        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-        import torch
-        
+        logger.info(f"Loading {config.base_model} with 128k context (official Meta weights)") 
 
         quantization_config = BitsAndBytesConfig(
             load_in_4bit=True,
@@ -43,7 +40,8 @@ class RAGReader:
         system = "You are an expert summarizer. Write a concise, accurate summary using ONLY the provided passages."
         passages_text = "\n\n".join([
             f"Passage {i+1}: {doc['text']}" 
-            for i, doc in enumerate(retrieved_passages)
+            # for i, doc in enumerate(retrieved_passages)
+            for i, doc in enumerate(retrieved_passages[:8])
         ])
         user = f"""Question: {query}
 

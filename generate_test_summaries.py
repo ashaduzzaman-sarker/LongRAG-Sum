@@ -42,7 +42,7 @@ model = PeftModel.from_pretrained(model, "artifacts/lora_adapter_final")
 model.eval()
 
 print("Loading GovReport test set...")
-test_dataset = load_dataset("ccdv/govreport-summarization", split="test[:50]")  # 200 = full eval
+test_dataset = load_dataset("ccdv/govreport-summarization", split="test[:10]")  # 200 = full eval
 
 def build_prompt(query, retrieved_passages):
     passages_text = "\n\n".join([

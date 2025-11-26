@@ -16,6 +16,7 @@ class RAGReader:
         
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
         import torch
+        
 
         quantization_config = BitsAndBytesConfig(
             load_in_4bit=True,

@@ -1,4 +1,5 @@
-# baseline_direct.pyimport torch
+# baseline_direct.py
+import torch
 import json
 from tqdm import tqdm
 from datasets import load_dataset

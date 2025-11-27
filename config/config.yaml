@@ -7,14 +7,69 @@ artifacts:
 
 data:
   # Primary dataset – change later to your own benchmark
-  dataset_name: ccdv/govreport-summarization # allenai/booksum
-  dataset_config: null # default
+  dataset_name: ashaduzzaman/LongSum-2025
+  dataset_config: default
   dataset_split: train[:100]   # Small for testing – change to train/validation later
   max_samples: null
   max_input_length: 100000
   chunk_size: 512
   chunk_overlap: 64
   top_k: 32
+
+  longsum_2025:
+    datasets:
+      - name: booksum
+        hf_name: ubaada/booksum-complete-cleaned
+        config: books
+        text_key: text
+        summary_key: summary
+        domain: literature
+        train_samples: 400
+        val_samples: 100
+        test_samples: 50
+
+      - name: arxiv
+        hf_name: ccdv/arxiv-summarization
+        config: document
+        text_key: article
+        summary_key: abstract
+        domain: scientific
+        train_samples: 4000
+        val_samples: 1000
+        test_samples: 500
+
+      - name: govreport
+        hf_name: ccdv/govreport-summarization
+        config: default
+        text_key: report
+        summary_key: summary
+        domain: government
+        train_samples: 1500
+        val_samples: 500
+        test_samples: 300
+
+      - name: pubmed
+        hf_name: ccdv/pubmed-summarization
+        config: default
+        text_key: article
+        summary_key: abstract
+        domain: medical
+        train_samples: 2000
+        val_samples: 500
+        test_samples: 300
+
+      - name: qmsum
+        hf_name: ioeddk/qmsum
+        config: default
+        text_key: input
+        summary_key: output
+        domain: meetings
+        train_samples: 1000
+        val_samples: 200
+        test_samples: 100
+
+    bertscore_threshold: 0.72
+    output_dir: artifacts/longsum_2025
 
 retriever:
   model_name: BAAI/bge-large-en-v1.5

@@ -19,14 +19,14 @@ data:
   longsum_2025:
     datasets:
       - name: booksum
-        hf_name: ubaada/booksum-complete-cleaned
-        config: books
-        text_key: text
+        hf_name: kmfoda/booksum
+        config: null  # No config needed
+        text_key: chapter
         summary_key: summary
         domain: literature
-        train_samples: 400
-        val_samples: 100
-        test_samples: 50
+        train_samples: 100
+        val_samples: 30
+        test_samples: 20
 
       - name: arxiv
         hf_name: ccdv/arxiv-summarization
@@ -34,38 +34,38 @@ data:
         text_key: article
         summary_key: abstract
         domain: scientific
-        train_samples: 4000
-        val_samples: 1000
-        test_samples: 500
+        train_samples: 2000
+        val_samples: 500
+        test_samples: 250
 
       - name: govreport
         hf_name: ccdv/govreport-summarization
-        config: default
+        config: null  # Valid config for GovReport (use 3 for full docs)
         text_key: report
         summary_key: summary
         domain: government
-        train_samples: 1500
-        val_samples: 500
-        test_samples: 300
+        train_samples: 1000
+        val_samples: 300
+        test_samples: 200
 
       - name: pubmed
         hf_name: ccdv/pubmed-summarization
-        config: default
+        config: document
         text_key: article
         summary_key: abstract
         domain: medical
-        train_samples: 2000
-        val_samples: 500
-        test_samples: 300
+        train_samples: 1500
+        val_samples: 400
+        test_samples: 200
 
       - name: qmsum
-        hf_name: ioeddk/qmsum
-        config: default
+        hf_name: pszemraj/qmsum-cleaned
+        config: null  # No config needed
         text_key: input
         summary_key: output
         domain: meetings
-        train_samples: 1000
-        val_samples: 200
+        train_samples: 600
+        val_samples: 150
         test_samples: 100
 
     bertscore_threshold: 0.72

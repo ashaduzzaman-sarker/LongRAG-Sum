@@ -1,63 +1,86 @@
-[build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
-
-[project]
-name = "longragsum"
-version = "0.0.1"
-description = "Retrieval-Augmented Long-Form Summarization with Open LLMs"
+[tool.poetry]
+name = "longrag-sum"
+version = "2.0.0"
+description = "SOTA Long-Form Summarization with Qwen2.5 + LongSum-2025"
+authors = ["Your Name <your.email@example.com>"]
+license = "MIT"
 readme = "README.md"
-requires-python = ">=3.10"
-authors = [
-    {name = "Md. Ashaduzzaman Sarker", email = "ashaduzzaman2505@gmail.com"}
-]
-dependencies = [
-    "torch>=2.1.0",
-    "transformers>=4.40.0",
-    "datasets>=2.18.0",
-    "sentence-transformers>=2.5.0",
-    "accelerate>=0.30.0",
-    "peft>=0.11.0",
-    "bitsandbytes>=0.43.0",
-    "faiss-cpu>=1.8.0",
-    "rank-bm25>=0.2.2",
-    "pandas>=2.0.0",
-    "numpy>=1.24.0",
-    "tqdm>=4.65.0",
-    "pyyaml>=6.0",
-    "nltk>=3.8",
-    "loguru>=0.7.0",
-    "rich>=13.0.0",
-    "rouge-score>=0.1.2",
-    "bert-score>=0.3.13",
-    "scikit-learn>=1.3.0",
-    "gradio>=4.0.0",
-    "fastapi>=0.104.0",
-    "uvicorn[standard]>=0.24.0",
-    "python-multipart>=0.0.6",
-    "python-box>=7.0.0",
-    "ensure>=1.0.0",
-    "unsloth"
+repository = "https://github.com/yourusername/LongRAG-Sum"
+keywords = ["rag", "summarization", "qwen", "long-context", "benchmark"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+torch = "^2.1.0"
+transformers = "^4.44.0"
+accelerate = "^0.33.0"
+bitsandbytes = "^0.43.3"
+peft = "^0.12.0"
+trl = "^0.9.4"
+datasets = "^2.20.0"
+sentence-transformers = "^3.0.1"
+faiss-cpu = "^1.8.0"
+pandas = "^2.1.0"
+rouge-score = "^0.1.2"
+bert-score = "^0.3.13"
+evaluate = "^0.4.2"
+wandb = "^0.16.0"
+tensorboard = "^2.15.0"
+rich = "^13.7.0"
+numpy = "^1.24.0"
+tqdm = "^4.66.0"
+pyyaml = "^6.0.1"
+scipy = "^1.11.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+black = "^24.0.0"
+isort = "^5.13.0"
+flake8 = "^7.0.0"
+mypy = "^1.8.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra --strict-markers --tb=short"
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+markers = [
+    "slow: marks tests as slow",
+    "unit: marks tests as unit tests",
+    "integration: marks tests as integration tests"
 ]
 
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.4.0",
-    "pytest-cov>=4.1.0",
-    "black>=23.0.0",
-    "flake8>=6.1.0",
-    "isort>=5.12.0",
-    "mypy>=1.5.0",
-    "pre-commit>=3.5.0",
-]
-gpu = [
-    "faiss-gpu>=1.8.0",
-]
-all = [
-    "longragsum[dev,gpu]",
-]
+[tool.black]
+line-length = 100
+target-version = ['py310']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
 
-[tool.setuptools]
-package-dir = {"" = "src"}
-
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.isort]
+profile = "black"
+line_length = 100
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_pipfile = true
+known_first_party = ["longragsum", "tests"]

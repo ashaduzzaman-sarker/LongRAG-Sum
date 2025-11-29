@@ -6,7 +6,7 @@ from datasets import load_dataset, Dataset
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 from trl import SFTTrainer
 from longragsum.config.configuration import ConfigurationManager
-from longragsum.components.retriever.dense_retriever import DenseRetriever
+from longragsum.components.retriever import DenseRetriever
 from tqdm import tqdm
 
 # Clear cache

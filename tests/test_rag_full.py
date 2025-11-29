@@ -1,7 +1,7 @@
 # test_rag_full.py
 from longragsum.config.configuration import ConfigurationManager
-from longragsum.components.retriever.dense_retriever import DenseRetriever
-from longragsum.components.reader.rag_reader import RAGReader
+from longragsum.components.retriever import DenseRetriever
+from longragsum.components.reader import RAGReader
 
 if __name__ == "__main__":
     cfg = ConfigurationManager()

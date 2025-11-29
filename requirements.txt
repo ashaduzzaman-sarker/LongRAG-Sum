@@ -1,47 +1,161 @@
-# Core ML/DL
+# Core ML Framework
 torch>=2.1.0
-transformers>=4.40.0
-datasets>=2.18.0
-sentence-transformers>=2.5.0
-accelerate>=0.30.0
-peft>=0.11.0
-bitsandbytes>=0.43.0
-unsloth
+transformers>=4.44.0
+accelerate>=0.33.0
+bitsandbytes>=0.43.3
+peft>=0.12.0
+trl>=0.9.4
 
-# Vector Store & Retrieval
+# Data & Datasets
+datasets>=2.20.0
+sentence-transformers>=3.0.1
 faiss-cpu>=1.8.0
-# faiss-gpu>=1.8.0  # Uncomment for GPU support
-rank-bm25>=0.2.2
-
-# Data Processing
-pandas>=2.0.0
-numpy>=1.24.0
-tqdm>=4.65.0
-pyyaml>=6.0
-nltk>=3.8
-
-# Logging & Monitoring
-loguru>=0.7.0
-rich>=13.0.0
-python-box>=7.0.0
-ensure>=1.0.3
+pandas>=2.1.0
 
 # Evaluation Metrics
 rouge-score>=0.1.2
 bert-score>=0.3.13
-# alignscore>=0.1.0  # Optional: may require manual install
-scikit-learn>=1.3.0
+evaluate>=0.4.2
+sacrebleu>=2.4.0
 
-# Web & API
-gradio>=4.0.0
-fastapi>=0.104.0
-uvicorn[standard]>=0.24.0
-python-multipart>=0.0.6
+# Training & Logging
+wandb>=0.16.0
+tensorboard>=2.15.0
+rich>=13.7.0
 
-# Development
+# Utilities
+numpy>=1.24.0
+tqdm>=4.66.0
+pyyaml>=6.0.1
+pathlib>=1.0.1
+scipy>=1.11.0
+
+# Testing
 pytest>=7.4.0
-black>=23.0.0
-flake8>=6.1.0
-pre-commit>=3.5.0
+pytest-cov>=4.1.0
+black>=24.0.0
+isort>=5.13.0
+flake8>=7.0.0
+
+# Optional (Performance)
+flash-attn>=2.5.0; platform_system != "Darwin"
+xformers>=0.0.26; platform_system != "Darwin"
 
 
+# ========================
+# # Core ML/DL
+# torch>=2.1.0
+# transformers>=4.40.0
+# datasets>=2.18.0
+# sentence-transformers>=2.5.0
+# accelerate>=0.30.0
+# peft>=0.11.0
+# bitsandbytes>=0.43.0
+# unsloth
+
+# # Vector Store & Retrieval
+# faiss-cpu>=1.8.0
+# # faiss-gpu>=1.8.0  # Uncomment for GPU support
+# rank-bm25>=0.2.2
+
+# # Data Processing
+# pandas>=2.0.0
+# numpy>=1.24.0
+# tqdm>=4.65.0
+# pyyaml>=6.0
+# nltk>=3.8
+
+# # Logging & Monitoring
+# loguru>=0.7.0
+# rich>=13.0.0
+# python-box>=7.0.0
+# ensure>=1.0.3
+
+# # Evaluation Metrics
+# trl>=0.8.0
+# tensorboard
+# wandb
+# rouge-score>=0.1.2
+# bert-score>=0.3.13
+# # alignscore>=0.1.0  # Optional: may require manual install
+# scikit-learn>=1.3.0
+
+# # Web & API
+# gradio>=4.0.0
+# fastapi>=0.104.0
+# uvicorn[standard]>=0.24.0
+# python-multipart>=0.0.6
+
+# # Development
+# pytest>=7.4.0
+# black>=23.0.0
+# flake8>=6.1.0
+# pre-commit>=3.5.0
+
+
+# [build-system]
+# requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+
+# [project]
+# name = "longragsum"
+# version = "0.0.1"
+# description = "Retrieval-Augmented Long-Form Summarization with Open LLMs"
+# readme = "README.md"
+# requires-python = ">=3.10"
+# authors = [
+#     {name = "Md. Ashaduzzaman Sarker", email = "ashaduzzaman2505@gmail.com"}
+# ]
+# dependencies = [
+#     "torch>=2.1.0",
+#     "transformers>=4.40.0",
+#     "datasets>=2.18.0",
+#     "sentence-transformers>=2.5.0",
+#     "accelerate>=0.30.0",
+#     "peft>=0.11.0",
+#     "bitsandbytes>=0.43.0",
+#     "faiss-cpu>=1.8.0",
+#     "rank-bm25>=0.2.2",
+#     "pandas>=2.0.0",
+#     "numpy>=1.24.0",
+#     "tqdm>=4.65.0",
+#     "pyyaml>=6.0",
+#     "nltk>=3.8",
+#     "loguru>=0.7.0",
+#     "rich>=13.0.0",
+#     "rouge-score>=0.1.2",
+#     "bert-score>=0.3.13",
+#     "scikit-learn>=1.3.0",
+#     "gradio>=4.0.0",
+#     "fastapi>=0.104.0",
+#     "uvicorn[standard]>=0.24.0",
+#     "python-multipart>=0.0.6",
+#     "python-box>=7.0.0",
+#     "ensure>=1.0.0",
+#     "unsloth",
+#     "trl>=0.8.0",
+#     "tensorboard"
+#     "wandb"
+# ]
+
+# [project.optional-dependencies]
+# dev = [
+#     "pytest>=7.4.0",
+#     "pytest-cov>=4.1.0",
+#     "black>=23.0.0",
+#     "flake8>=6.1.0",
+#     "isort>=5.12.0",
+#     "mypy>=1.5.0",
+#     "pre-commit>=3.5.0",
+# ]
+# gpu = [
+#     "faiss-gpu>=1.8.0",
+# ]
+# all = [
+#     "longragsum[dev,gpu]",
+# ]
+
+# [tool.setuptools]
+# package-dir = {"" = "src"}
+
+# [tool.setuptools.packages.find]
+# where = ["src"]

@@ -1,86 +1,115 @@
-artifacts:
-  ARTIFACTS_DIR: artifacts
-  DATA_DIR: artifacts/data
-  RETRIEVER_DIR: artifacts/retriever
-  READER_DIR: artifacts/reader
-  INDEX_DIR: artifacts/index
+model:
+
+  dev_reader: "Qwen/Qwen2.5-7B-Instruct"   # Development (T4-friendly)
+  final_reader: "Qwen/Qwen2.5-72B-Instruct" # Final model (GPU cluster-A100/H100)
+  retriever: "BAAI/bge-m3"  # SOTA multilingual retriever
 
 data:
-  # Primary dataset – change later to your own benchmark
-  dataset_name: ashaduzzaman/LongSum-2025
-  dataset_config: default
-  dataset_split: train[:100]   # Small for testing – change to train/validation later
-  max_samples: null
-  max_input_length: 100000
-  chunk_size: 512
-  chunk_overlap: 64
-  top_k: 32
-
+  # OUR PUBLISHED DATASET
   longsum_2025:
-    datasets:
-      - name: booksum
-        hf_name: kmfoda/booksum
-        config: null  # No config needed
-        text_key: chapter
-        summary_key: summary
-        domain: literature
-        train_samples: 100
-        val_samples: 30
-        test_samples: 20
+    dataset_name: "ashaduzzaman/LongSum-2025"
+    train_split: "train"
+    val_split: "validation" 
+    test_split: "test"
+    max_train_samples: 5000  # For dev training
+    chunk_size: 1024
+    chunk_overlap: 128
+    max_context_length: 32768  # Qwen2.5 safe
+  
+  # Original baselines for comparison
+  govreport:
+    dataset_name: "ccdv/govreport-summarization"
+    config: "3"
 
-      - name: arxiv
-        hf_name: ccdv/arxiv-summarization
-        config: document
-        text_key: article
-        summary_key: abstract
-        domain: scientific
-        train_samples: 2000
-        val_samples: 500
-        test_samples: 250
+  # longsum_2025:
+  #   datasets:
+  #     - name: booksum
+  #       hf_name: kmfoda/booksum
+  #       config: null  # No config needed
+  #       text_key: chapter
+  #       summary_key: summary
+  #       domain: literature
+  #       train_samples: 100
+  #       val_samples: 30
+  #       test_samples: 20
 
-      - name: govreport
-        hf_name: ccdv/govreport-summarization
-        config: null  # Valid config for GovReport (use 3 for full docs)
-        text_key: report
-        summary_key: summary
-        domain: government
-        train_samples: 1000
-        val_samples: 300
-        test_samples: 200
+  #     - name: arxiv
+  #       hf_name: ccdv/arxiv-summarization
+  #       config: document
+  #       text_key: article
+  #       summary_key: abstract
+  #       domain: scientific
+  #       train_samples: 2000
+  #       val_samples: 500
+  #       test_samples: 250
 
-      - name: pubmed
-        hf_name: ccdv/pubmed-summarization
-        config: document
-        text_key: article
-        summary_key: abstract
-        domain: medical
-        train_samples: 1500
-        val_samples: 400
-        test_samples: 200
+  #     - name: govreport
+  #       hf_name: ccdv/govreport-summarization
+  #       config: null  # Valid config for GovReport (use 3 for full docs)
+  #       text_key: report
+  #       summary_key: summary
+  #       domain: government
+  #       train_samples: 1000
+  #       val_samples: 300
+  #       test_samples: 200
 
-      - name: qmsum
-        hf_name: pszemraj/qmsum-cleaned
-        config: null  # No config needed
-        text_key: input
-        summary_key: output
-        domain: meetings
-        train_samples: 600
-        val_samples: 150
-        test_samples: 100
+  #     - name: pubmed
+  #       hf_name: ccdv/pubmed-summarization
+  #       config: document
+  #       text_key: article
+  #       summary_key: abstract
+  #       domain: medical
+  #       train_samples: 1500
+  #       val_samples: 400
+  #       test_samples: 200
 
-    bertscore_threshold: 0.72
-    output_dir: artifacts/longsum_2025
+  #     - name: qmsum
+  #       hf_name: pszemraj/qmsum-cleaned
+  #       config: null  # No config needed
+  #       text_key: input
+  #       summary_key: output
+  #       domain: meetings
+  #       train_samples: 600
+  #       val_samples: 150
+  #       test_samples: 100
 
-retriever:
-  model_name: BAAI/bge-large-en-v1.5
-  device: cuda
-  batch_size: 32
+  #   bertscore_threshold: 0.72
+  #   output_dir: artifacts/longsum_2025
 
-reader:
-  base_model: meta-llama/Meta-Llama-3.1-8B-Instruct
-  lora_r: 64
-  lora_alpha: 16
-  target_modules: ["q_proj", "v_proj"]
-  max_seq_length: 32768
+training:
+  lora:
+    r: 16
+    lora_alpha: 32
+    target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]
+    lora_dropout: 0.05
+    bias: "none"
+  
+  # Qwen-optimized
+  learning_rate: 2e-4
+  batch_size: 2
+  gradient_accumulation_steps: 4
+  num_epochs: 3
+  warmup_steps: 100
+  max_grad_norm: 0.3
+  weight_decay: 0.001
+  
+  # Memory optimization
   use_4bit: true
-  use_gradient_checkpointing: true
+  bnb_4bit_quant_type: "nf4"
+  bnb_4bit_compute_dtype: "float16"
+
+evaluation:
+  metrics:
+    - rouge1
+    - rouge2
+    - rougeL
+    - bertscore
+    - alignscore
+  batch_size: 8
+  max_new_tokens: 512
+
+paths:
+  output_dir: "artifacts"
+  model_dir: "artifacts/models"
+  results_dir: "artifacts/results"
+  checkpoints_dir: "artifacts/checkpoints"  

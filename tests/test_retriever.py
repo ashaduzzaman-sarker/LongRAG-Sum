@@ -1,6 +1,6 @@
 # test_retriever.py
 from longragsum.config.configuration import ConfigurationManager
-from longragsum.components.retriever.dense_retriever import DenseRetriever
+from longragsum.components.retriever import DenseRetriever
 
 if __name__ == "__main__":
     cfg = ConfigurationManager()

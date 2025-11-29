@@ -4,7 +4,7 @@ import json
 from tqdm import tqdm
 from datasets import load_dataset
 from longragsum.config.configuration import ConfigurationManager
-from longragsum.components.retriever.dense_retriever import DenseRetriever
+from longragsum.components.retriever import DenseRetriever
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 # Clear GPU

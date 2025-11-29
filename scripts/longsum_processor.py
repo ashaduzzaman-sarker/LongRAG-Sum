@@ -25,4 +25,3 @@ if __name__ == "__main__":
     
     logger.success("✅ PREPROCESSING COMPLETE & VERIFIED!")
     logger.success(f"📂 Saved to: artifacts/processed_longsum")
-    logger.success("👉 Next step: Retriever upgrade (BGE-m3) + indexing")

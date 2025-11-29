@@ -16,7 +16,7 @@ from transformers import (
     BitsAndBytesConfig
 )
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
-from longragsum.data_processor import LongSumDataProcessor
+from longragsum.components.data_processor import LongSumDataProcessor
 from longragsum.logging.logger import logger
 import wandb
 from datetime import datetime
@@ -67,8 +67,8 @@ def main():
         quantization_config=bnb_config,
         device_map="auto",
         trust_remote_code=True,
-        torch_dtype=torch.float16,
-        attn_implementation="flash_attention_2"  # Faster inference
+        dtype=torch.float16,
+        # attn_implementation="flash_attention_2"  # Faster inference
     )
     
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, trust_remote_code=True)

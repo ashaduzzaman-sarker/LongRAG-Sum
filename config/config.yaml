@@ -7,7 +7,7 @@ artifacts:
 
 data:
   # Primary dataset – change later to your own benchmark
-  dataset_name: ashaduzzaman/LongSum-2025
+  dataset_name: ccdv/govreport-summarization # ashaduzzaman/LongSum-2025
   dataset_config: default
   dataset_split: train[:100]   # Small for testing – change to train/validation later
   max_samples: null
